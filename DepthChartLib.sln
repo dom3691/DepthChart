@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DepthChartLib", "DepthChartLib\DepthChartLib.csproj", "{54B5D29F-4D9C-416E-A404-E26F62B3AA70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{7507AF2C-4870-4F41-BEC6-CF5FAE622625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{54B5D29F-4D9C-416E-A404-E26F62B3AA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54B5D29F-4D9C-416E-A404-E26F62B3AA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54B5D29F-4D9C-416E-A404-E26F62B3AA70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7507AF2C-4870-4F41-BEC6-CF5FAE622625}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7507AF2C-4870-4F41-BEC6-CF5FAE622625}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7507AF2C-4870-4F41-BEC6-CF5FAE622625}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7507AF2C-4870-4F41-BEC6-CF5FAE622625}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
