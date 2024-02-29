@@ -1,79 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace DepthChartLib
+class Program
 {
-    public enum Sports
+    static void Main(string[] args)
     {
-        NFL,
-        MLB
-    }
+        DepthChart depthChart = new DepthChart();
+        List<Player> players = new List<Player>(); // Keep track of all added players
+        string input;
 
-    public class Player
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-    }
-
-    public interface IDepthChart
-    {
-        void AddPlayerToDepthChart(string position, Player player, int? depth = null);
-        void RemovePlayerFromDepthChart(string position, Player player);
-        IList<Player> GetFullDepthChart();
-        IList<Player> GetPlayersUnderPlayerInDepthChart(string position, Player player);
-    }
-
-    public class DepthChartManager : IDepthChart
-    {
-        private readonly Dictionary<string, List<Player>> _depthCharts;
-
-        public DepthChartManager()
+        do
         {
-            _depthCharts = new Dictionary<string, List<Player>>();
-        }
+            Console.WriteLine("Enter player ID:");
+            int playerId = int.Parse(Console.ReadLine());
 
-        public void AddPlayerToDepthChart(string position, Player player, int? depth = null)
-        {
-            if (!_depthCharts.ContainsKey(position))
-            {
-                _depthCharts[position] = new List<Player>();
-            }
-            if (depth == null || depth >= _depthCharts[position].Count)
-            {
-                _depthCharts[position].Add(player);
-            }
-            else
-            {
-                _depthCharts[position].Insert((int)depth, player);
-            }
-        }
+            Console.WriteLine("Enter player name:");
+            string playerName = Console.ReadLine();
 
-        public void RemovePlayerFromDepthChart(string position, Player player)
-        {
-            if (_depthCharts.ContainsKey(position))
-            {
-                _depthCharts[position].Remove(player);
-            }
-        }
+            Console.WriteLine("Enter player position (QB, WR, RB, TE, K, P, KR, PR):");
+            Position position = (Position)Enum.Parse(typeof(Position), Console.ReadLine(), true);
 
-        public IList<Player> GetFullDepthChart()
-        {
-            return _depthCharts.SelectMany(dc => dc.Value).ToList();
-        }
+            Console.WriteLine("Enter player depth (leave blank for default):");
+            input = Console.ReadLine();
+            int? depth = string.IsNullOrEmpty(input) ? null : int.Parse(input);
 
-        public IList<Player> GetPlayersUnderPlayerInDepthChart(string position, Player player)
+            Player player = new Player(playerId, playerName);
+            depthChart.AddPlayerToDepthChart(player, position, depth);
+            players.Add(player); // Add to local list
+
+            Console.WriteLine("Add another player? (yes/no)");
+            input = Console.ReadLine();
+        } while (input.Trim().ToLower() == "yes");
+
+        Console.WriteLine("\nFull Depth Chart:");
+        depthChart.GetFullDepthChart();
+
+        // Removing players
+        do
         {
-            if (_depthCharts.ContainsKey(position))
+            Console.WriteLine("Remove a player? (yes/no)");
+            input = Console.ReadLine();
+            if (input.Trim().ToLower() == "yes")
             {
-                var index = _depthCharts[position].FindIndex(p => p.Id == player.Id);
-                if (index != -1 && index < _depthCharts[position].Count - 1)
+                Console.WriteLine("Enter player ID to remove:");
+                int idToRemove = int.Parse(Console.ReadLine());
+
+                Player playerToRemove = players.Find(p => p.PlayerId == idToRemove);
+                if (playerToRemove != null)
                 {
-                    return _depthCharts[position].Skip(index + 1).ToList();
+                    Console.WriteLine($"Enter position from which to remove {playerToRemove.Name}:");
+                    Position positionToRemove = (Position)Enum.Parse(typeof(Position), Console.ReadLine(), true);
+                    depthChart.RemovePlayerFromDepthChart(playerToRemove, positionToRemove);
+                    Console.WriteLine($"{playerToRemove.Name} removed from {positionToRemove}.");
+                }
+                else
+                {
+                    Console.WriteLine("Player not found.");
                 }
             }
-            return new List<Player>();
-        }
-    }
 
+            Console.WriteLine("\nUpdated Depth Chart:");
+            depthChart.GetFullDepthChart();
+        } while (input.Trim().ToLower() == "yes");
+    }
 }
